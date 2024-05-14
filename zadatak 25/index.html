@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Student Data</title>
+      </head>
+      <body>
+        <div id="student-data">
+          <div id="student12"></div>
+          <div id="student13"></div>
+          <div id="student14"></div>
+          
+        </div>
+      </body>
+    </html>
+
+    <script>
+       class Studentt {
+            constructor(name, address, phone, course) {
+                this.name = name;
+                this.address = address;
+                this.phone = phone;
+                this.course = course;
+            }
+
+            getInfo() {
+                return "Name: " + this.name + "<br>" +
+                    "Address: " + this.address + "<br>" +
+                    "Phone: " + this.phone + "<br>"+
+                    "Course: " + this.course
+            }
+
+        }
+        
+
+        let student1 = new Studentt("Marko Markovic", "Trg Markov", 888222666, "Front-end-development");
+        let student2 = new Studentt("Janko Jankovic", "Trg Jankov", 999333777, "Teologija");
+        let student3 = new Studentt("Vuk Vukovic", "Trg Vukov", 777111555, "Dizajn");
+        
+
+        console.log(student1.getInfo());
+        document.getElementById("student12").innerHTML = student1.getInfo();
+        document.getElementById("student13").innerHTML = student2.getInfo();
+        document.getElementById("student14").innerHTML = student3.getInfo();
+
+
+
+      class Student {
+        constructor(name, address, phone, course) {
+          this.name = name;
+          this.address = address;
+          this.phone = phone;
+          this.course = course;
+        }
+      }
+      
+     
+
+      async function studentDataF() {
+        try {
+          const response = await fetch(
+            "https://v-dresevic.github.io/Advanced-JavaScript-Programming/data/students.txt"
+          );
+          const data = await response.text();
+          const li = data.split("\n");
+
+          const students = [];
+
+          for (let i = 0; i < li.length; i += 4) {
+            const name = li[i];
+            const address = li[i + 1];
+            const phone = li[i + 2];
+            const course = li[i + 3];
+
+            const student = new Student(name, address, phone, course);
+            students.push(student);
+          }
+
+          studentDataD(students);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+
+      function studentDataD(students) {
+        const container = document.getElementById("student-data");
+
+        students.forEach((student) => {
+          const studentInfo = document.createElement("div");
+          studentInfo.innerHTML = `
+      <h4>Name: ${student.name}</h4>
+      <p>Address: ${student.address}</p>
+      <p>Phone: ${student.phone}</p>
+      <p>Course: ${student.course}</p>
+      
+    `;
+
+          container.appendChild(studentInfo);
+        });
+      }
+      studentDataF();
+      
+    </script>
+  </body>
+</html>
